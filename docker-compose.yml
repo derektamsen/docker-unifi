@@ -10,6 +10,7 @@ services:
     volumes:
       - unifidata:/usr/lib/unifi/data
       - unifilog:/usr/lib/unifi/logs
+      - unifidl:/usr/lib/unifi/dl
     links:
       - mongo
     ports:
@@ -37,6 +38,8 @@ volumes:
   unifidata:
     driver: local
   unifilog:
+    driver: local
+  unifidl:
     driver: local
   mongodata:
     driver: local
