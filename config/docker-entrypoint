@@ -1,0 +1,52 @@
+#!/usr/bin/env sh
+set -e
+
+config_file="${BASEDIR}/data/system.properties"
+
+if [ ! -f "${config_file}" ]; then
+  echo "Creating config file: ${config_file}"
+  touch ${config_file}
+fi
+
+echo 'Updating Unifi Config'
+
+# db.mongo.local=${MONGO_USE_INTERNAL_DB}
+grep -q '^db.mongo.local=' "${config_file}" || \
+  echo "db.mongo.local=${MONGO_USE_INTERNAL_DB}" >> "${config_file}"
+sed -i -e "s/^db.mongo.local=.*$/db.mongo.local=${MONGO_USE_INTERNAL_DB}/" "${config_file}"
+
+# db.mongo.uri=mongodb://
+mongodb_uri="mongodb:\/\/mongo:27017\/${MONGO_DB_NAME}"
+grep -q '^db.mongo.uri=' "${config_file}" || \
+  echo "db.mongo.uri=${mongodb_uri}" >> "${config_file}"
+sed -i -e "s/^db.mongo.uri=.*$/db.mongo.uri=${mongodb_uri}/" "${config_file}"
+
+# statdb.mongo.uri=mongodb://
+statdb_uri="mongodb:\/\/mongo:27017\/${MONGO_DB_NAME}_stat"
+grep -q '^statdb.mongo.uri=' "${config_file}" || \
+  echo "statdb.mongo.uri=${mongodb_uri}" >> "${config_file}"
+sed -i -e "s/^statdb.mongo.uri=.*$/statdb.mongo.uri=${statdb_uri}/" "${config_file}"
+
+# unifi.db.name=
+grep -q '^unifi.db.name=' "${config_file}" || \
+  echo "unifi.db.name=${MONGO_DB_NAME}" >> "${config_file}"
+sed -i -e "s/^unifi.db.name=.*$/unifi.db.name=${MONGO_DB_NAME}/" "${config_file}"
+
+echo 'Starting Unifi'
+exec /usr/bin/jsvc \
+  -home "${JAVA_HOME}" \
+  -cwd "${BASEDIR}" \
+  -cp "/usr/share/java/commons-daemon.jar:${BASEDIR}/lib/ace.jar" \
+  -nodetach \
+  -pidfile "${RUNDIR}/unifi.pid" \
+  -procname unifi \
+  -outfile SYSLOG \
+  -errfile SYSLOG \
+  -Xmx${JVM_MAX_HEAP_SIZE} \
+  -Xms${JVM_INIT_HEAP_SIZE} \
+  -Dunifi.datadir="${DATADIR}" \
+  -Dunifi.logdir="${LOGDIR}" \
+  -Dunifi.rundir="${RUNDIR}" \
+  -Djava.awt.headless=true \
+  -Dfile.encoding=UTF-8 \
+  ${MAINCLASS} "$@"
