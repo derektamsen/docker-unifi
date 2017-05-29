@@ -4,7 +4,7 @@ services:
   unifi:
     image: derektamsen/unifi
     build: ./
-    mem_limit: 512m
+    mem_limit: 768m
     cpu_shares: 512
     restart: on-failure:5
     volumes:
