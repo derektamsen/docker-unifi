@@ -44,6 +44,7 @@ exec /usr/bin/jsvc \
   -errfile SYSLOG \
   -Xmx${JVM_MAX_HEAP_SIZE} \
   -Xms${JVM_INIT_HEAP_SIZE} \
+  -Xss1280k \
   -Dunifi.datadir="${DATADIR}" \
   -Dunifi.logdir="${LOGDIR}" \
   -Dunifi.rundir="${RUNDIR}" \
