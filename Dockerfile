@@ -25,9 +25,6 @@ RUN apt-get update && apt-get install -y apt-transport-https && \
     openjdk-8-jre-headless \
     unifi && \
 
-    # fix execstack warning on library
-    execstack -c /usr/lib/unifi/lib/native/Linux/amd64/libubnt_webrtc_jni.so && \
-
     # create dirs
     mkdir -p "${RUNDIR}" "${LOGDIR}" "${DATADIR}" && \
 
