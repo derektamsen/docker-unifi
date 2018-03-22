@@ -6,9 +6,9 @@ services:
     build: ./
     restart: on-failure:5
     volumes:
-      - unifidata:/usr/lib/unifi/data
-      - unifilog:/usr/lib/unifi/logs
-      - unifidl:/usr/lib/unifi/dl
+      - unifidata-nfs:/usr/lib/unifi/data
+      - unifilog-nfs:/usr/lib/unifi/logs
+      - unifidl-nfs:/usr/lib/unifi/dl
     links:
       - mongo
     ports:
@@ -29,7 +29,7 @@ services:
     expose:
       - "27017"
     volumes:
-      - mongodata:/data/db
+      - mongodata-nfs:/data/db
 volumes:
   unifidata-nfs:
     driver: local
