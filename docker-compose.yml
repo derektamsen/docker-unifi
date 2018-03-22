@@ -1,11 +1,9 @@
 ---
-version: '2'
+version: '3.2'
 services:
   unifi:
     image: derektamsen/unifi
     build: ./
-    mem_limit: 768m
-    cpu_shares: 512
     restart: on-failure:5
     volumes:
       - unifidata:/usr/lib/unifi/data
@@ -22,8 +20,6 @@ services:
       - "10001:10001/udp"
   mongo:
     image: mongo:3
-    mem_limit: 512m
-    cpu_shares: 512
     restart: on-failure:5
     ulimits:
       nproc: 64000
@@ -35,11 +31,27 @@ services:
     volumes:
       - mongodata:/data/db
 volumes:
-  unifidata:
+  unifidata-nfs:
     driver: local
-  unifilog:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NFS_SERVER},nolock,soft,rw"
+      device: ":${NFS_VOLUME_DATA}"
+  unifilog-nfs:
     driver: local
-  unifidl:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NFS_SERVER},nolock,soft,rw"
+      device: ":${NFS_VOLUME_LOG}"
+  unifidl-nfs:
     driver: local
-  mongodata:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NFS_SERVER},nolock,soft,rw"
+      device: ":${NFS_VOLUME_DL}"
+  mongodata-nfs:
     driver: local
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NFS_SERVER},nolock,soft,rw"
+      device: ":${NFS_VOLUME_MONGO}"
