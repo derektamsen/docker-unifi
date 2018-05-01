@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 ENV DEBIAN_FRONTEND='noninteractive' \
-    JAVA_HOME='/usr/lib/jvm/java-11-openjdk-amd64' \
+    JAVA_HOME='/usr/lib/jvm/java-8-openjdk-amd64' \
     BASEDIR='/usr/lib/unifi' \
     DATADIR='/usr/lib/unifi/data' \
     LOGDIR='/usr/lib/unifi/logs' \
@@ -22,7 +22,7 @@ RUN echo 'deb https://www.ubnt.com/downloads/unifi/debian stable ubiquiti' > /et
     && apt-get update \
     && apt-get install -y --no-install-recommends \
       execstack \
-      openjdk-11-jre-headless \
+      openjdk-8-jre-headless \
       unifi \
     && apt-get clean \
     && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
