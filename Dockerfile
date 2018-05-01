@@ -22,7 +22,7 @@ RUN echo 'deb https://www.ubnt.com/downloads/unifi/debian stable ubiquiti' > /et
     && apt-get update \
     && apt-get install -y --no-install-recommends \
       execstack \
-      openjdk-8-jre-headless \
+      openjdk-8-jdk-headless \
       unifi \
     && apt-get clean \
     && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
