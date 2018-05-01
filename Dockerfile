@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 ENV DEBIAN_FRONTEND='noninteractive' \
-    JAVA_HOME='/usr/lib/jvm/java-8-openjdk-amd64' \
+    JAVA_HOME='/usr/lib/jvm/java-9-openjdk-amd64' \
     BASEDIR='/usr/lib/unifi' \
     DATADIR='/usr/lib/unifi/data' \
     LOGDIR='/usr/lib/unifi/logs' \
