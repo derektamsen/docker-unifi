@@ -15,7 +15,6 @@ ENV DEBIAN_FRONTEND='noninteractive' \
 
 # install packages
 RUN apt-get update && apt-get install -y apt-transport-https && \
-
     # install java, unifi
     echo 'deb https://www.ubnt.com/downloads/unifi/debian stable ubiquiti' > /etc/apt/sources.list.d/unifi.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv 06E85760C0A52C50 && \
@@ -24,10 +23,8 @@ RUN apt-get update && apt-get install -y apt-transport-https && \
     execstack \
     openjdk-8-jre-headless \
     unifi && \
-
     # create dirs
     mkdir -p "${RUNDIR}" "${LOGDIR}" "${DATADIR}" && \
-
     # cleanup
     apt-get clean && \
     rm -rf \
@@ -40,7 +37,7 @@ RUN chmod +x /docker-entrypoint
 
 # Volumes and Ports
 WORKDIR /usr/lib/unifi
-EXPOSE 8080 8443 8880 8843 3478/udp 10001/udp
+EXPOSE 6789 8080 8443 8880 8843 3478/udp 10001/udp
 
 ENTRYPOINT [ "/docker-entrypoint" ]
 CMD [ "start" ]
