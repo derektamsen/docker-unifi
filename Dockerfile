@@ -14,7 +14,7 @@ ENV DEBIAN_FRONTEND='noninteractive' \
     MONGO_DB_NAME='unifi'
 
 # install packages
-RUN apt-get update && apt-get install -y apt-transport-https && \
+RUN apt-get update && apt-get install -y apt-transport-https gnupg2 && \
     # install java, unifi
     echo 'deb https://www.ubnt.com/downloads/unifi/debian stable ubiquiti' > /etc/apt/sources.list.d/unifi.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv 06E85760C0A52C50 && \
