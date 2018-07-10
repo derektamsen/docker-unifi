@@ -17,8 +17,14 @@ RUN apt-get update && apt-get install -y \
       gnupg2 \
       ca-certificates
 
-RUN echo 'deb https://www.ubnt.com/downloads/unifi/debian stable ubiquiti' > /etc/apt/sources.list.d/unifi.list \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv 06E85760C0A52C50 \
+RUN apt-key adv --keyserver keyserver.ubuntu.com \
+      --recv 0C49F3730359A14518585931BC711F9BA15703C6 \
+    && echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" \
+      | tee /etc/apt/sources.list.d/mongodb-org.list
+
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 06E85760C0A52C50 \
+    && echo 'deb https://www.ubnt.com/downloads/unifi/debian stable ubiquiti' \
+      | tee /etc/apt/sources.list.d/unifi.list \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
       execstack \
